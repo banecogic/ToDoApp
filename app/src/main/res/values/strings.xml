@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ToDoApp</string>
+    <string name="todo">To Do:</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="not_done">Not done</string>
+</resources>
