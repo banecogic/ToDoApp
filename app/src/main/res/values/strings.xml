@@ -4,4 +4,7 @@
     <string name="title">Title</string>
     <string name="date">Date</string>
     <string name="not_done">Not done</string>
+    <string name="title_placeholder">Title</string>
+    <string name="description_placeholder">Put a short description of what you need to do.</string>
+    <string name="add">Add</string>
 </resources>

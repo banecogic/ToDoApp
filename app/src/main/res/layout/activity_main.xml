@@ -18,10 +18,21 @@
         android:fontFamily="Tahoma"
         android:textSize="26sp"
         android:textAlignment="center"
+        android:background="@color/colorAccent"
         android:textColor="#000000" />
 
     <ListView
         android:id="@+id/to_do_list"
+        android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1.0"/>
+
+    <ImageButton
+        android:id="@+id/add_to_do_button"
+        android:src="@drawable/add_to_do_button"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
 </LinearLayout>
