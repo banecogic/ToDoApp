@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.icu.text.DisplayContext;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,13 +37,14 @@ public class AddToDoActivity extends AppCompatActivity {
     private EditText description;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_do);
         sharedPreferences = getPreferences(MODE_PRIVATE);
-
+        editor = sharedPreferences.edit();
         initViewComponents();
     }
 
@@ -66,16 +68,18 @@ public class AddToDoActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if(!isFinishing()){
+            EditText title = (EditText) findViewById(R.id.new_to_do_title);
+            EditText description = (EditText) findViewById(R.id.new_to_do_description);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        EditText title = (EditText) findViewById(R.id.new_to_do_title);
-        EditText description = (EditText) findViewById(R.id.new_to_do_description);
-
-        editor.putString(PREVIOUSLY_TYPED_TITLE, title.getText().toString());
-        editor.putString(PREVIOUSLY_TYPED_DESCRIPTION, description.getText().toString());
+            editor.putString(PREVIOUSLY_TYPED_TITLE, title.getText().toString());
+            editor.putString(PREVIOUSLY_TYPED_DESCRIPTION, description.getText().toString());
+        }else{
+            editor.putString(PREVIOUSLY_TYPED_TITLE, null);
+            editor.putString(PREVIOUSLY_TYPED_DESCRIPTION, null);
+        }
         editor.commit();
     }
-
 
     private void initViewComponents() {
 
@@ -96,7 +100,6 @@ public class AddToDoActivity extends AppCompatActivity {
                     title.setTypeface(null, Typeface.BOLD);
                     title.setText("");
                 }
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 return false;
             }
         });
@@ -110,7 +113,6 @@ public class AddToDoActivity extends AppCompatActivity {
                     description.setTypeface(null, Typeface.NORMAL);
                     description.setText("");
                 }
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 return false;
             }
         });
@@ -156,20 +158,9 @@ public class AddToDoActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(AddToDoActivity.class.getSimpleName(), "Add button clicked. Finishing the AddToDoActivity");
                 ToDoItem newToDoItem = new ToDoItem(title.getText().toString(), description.getText().toString(), new Date(), false);
-                PreferenceManager.getInstance().addToDoItem(newToDoItem);
-
-                /* TODO: MOVE THIS PIECE OF CODE. PUT PLACEHOLDERS BEFORE FINISH PROBABLY ON STOP.
-                CURRENTLY THIS MAKES A "FLASHING" EFFECT PRIOR TO SWITCHING BACK TO MAIN THREAD */
-                title.setText(R.string.title_placeholder);
-                title.setTypeface(null, Typeface.BOLD_ITALIC);
-                int color = getResources().getColor(R.color.colorPlaceholder);
-                title.setTextColor(color);
-                isTitleTouched = false;
-                description.setText(R.string.description_placeholder);
-                description.setTypeface(null, Typeface.ITALIC);
-                description.setTextColor(color);
-                isDescriptionTouched = false;
+                PreferenceManager.getInstance().saveToDoItem(newToDoItem, true);
                 finish();
             }
         });

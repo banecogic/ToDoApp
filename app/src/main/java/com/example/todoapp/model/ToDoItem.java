@@ -1,5 +1,8 @@
 package com.example.todoapp.model;
 
+import com.example.todoapp.ToDoApplication;
+import com.example.todoapp.Util;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,11 +72,21 @@ public class ToDoItem {
 
     @Override
     public String toString() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String dateString = new Integer(calendar.get(Calendar.DAY_OF_MONTH)) + "/" + new Integer(calendar.get(Calendar.MONTH))
-                + "/" + new Integer(calendar.get(Calendar.YEAR));
+        String dateString = Util.parseDate(date);
         return "[ " + title + ", " + dateString + ", "
                 + (isDone?" done ]":" to be done ]");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ToDoItem))
+            return false;
+        if(obj == null)
+            return false;
+        if(this == obj)
+            return true;
+        if(this.getTitle().equals(((ToDoItem) obj).getTitle()))
+            return true;
+        return false;
     }
 }

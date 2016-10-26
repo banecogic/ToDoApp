@@ -12,13 +12,14 @@
     tools:context="com.example.todoapp.activity.MainActivity">
 
     <TextView
+        android:id="@+id/to_do_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/todo"
+        android:text="@string/todolist"
         android:fontFamily="Tahoma"
         android:textSize="26sp"
-        android:textAlignment="center"
-        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark"
         android:textColor="#000000" />
 
     <ListView

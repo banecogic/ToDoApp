@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    android:padding="6dip"
+    android:background="@drawable/edit_text_style">
 
     <ImageView
         android:id="@+id/to_do_item_icon"
@@ -23,7 +24,8 @@
         android:ellipsize="marquee"
         android:maxLines="1"
         android:text="@string/date"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:elevation="1dp" />
 
     <TextView
         android:id="@+id/to_do_item_title"

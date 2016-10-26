@@ -13,10 +13,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- * Created by FS-LB on 10/25/2016.
- */
-
 public class PreferenceManager {
 
     private static final PreferenceManager preferenceManager = new PreferenceManager();
@@ -36,8 +32,17 @@ public class PreferenceManager {
         return preferenceManager;
     }
 
-    public void addToDoItem(ToDoItem toDoItem) {
-        Log.d(this.getClass().getSimpleName(), "Trying to persist a ToDoItem: " + toDoItem + " to the preference store");
+    /**
+     * Tries to save ToDoItem to the preference store.
+     * Parameter <code>isNew</code> should be set to true if method is called from AddToDoActivity and
+     * set to false if it's called from ViewToDoActivity
+     *
+     * @param toDoItem ToDoItem to save
+     * @param isNew indicate if ToDoItem is saving for the first time
+     * @return true if successfully saved, false if not
+     */
+    public boolean saveToDoItem(ToDoItem toDoItem, boolean isNew) {
+        Log.d(this.getClass().getSimpleName(), "Trying to save a ToDoItem: " + toDoItem + " to the preference store");
         ArrayList<ToDoItem> toDoList = new ArrayList<ToDoItem>();
         Type listType = new TypeToken<ArrayList<ToDoItem>>(){}.getType();
         String toDoListJson = sharedPreferences.getString(PREFERENCE_TO_DO_LIST, null);
@@ -46,13 +51,44 @@ public class PreferenceManager {
             toDoList.add(toDoItem);
             Log.d(this.getClass().getSimpleName(), "TRACE: toDoListJson: " + gson.toJson(toDoList));
             editor.putString(PREFERENCE_TO_DO_LIST, gson.toJson(toDoList));
-            editor.apply();
         }else {
             toDoList = gson.fromJson(toDoListJson, listType);
-            toDoList.add(toDoItem);
+            for(ToDoItem item : toDoList ){
+                if(item.getTitle().equals(toDoItem.getTitle())){
+                    if(isNew)
+                        return false;
+                    else
+                        item.setDone(toDoItem.isDone());
+                }
+            }
+            if(isNew)
+                toDoList.add(toDoItem);
             editor.putString(PREFERENCE_TO_DO_LIST, gson.toJson(toDoList));
-            editor.apply();
         }
+        editor.apply();
+        return true;
+    }
+
+    /**
+     * Tries to remove ToDoItem from the preference store.
+     *
+     * @param toDoItem ToDoItem to remove
+     * @return true if successfully removed, false if not
+     */
+    public boolean removeToDoItem(ToDoItem toDoItem) {
+        ArrayList<ToDoItem> toDoList;
+        Type listType = new TypeToken<ArrayList<ToDoItem>>(){}.getType();
+        String toDoListJson = sharedPreferences.getString(PREFERENCE_TO_DO_LIST, null);
+        toDoList = gson.fromJson(toDoListJson, listType);
+        for(ToDoItem item : toDoList ){
+            if(item.getTitle().equals(toDoItem.getTitle())){
+                toDoList.remove(item);
+                editor.putString(PREFERENCE_TO_DO_LIST, gson.toJson(toDoList));
+                editor.apply();
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<ToDoItem> getToDoList(){

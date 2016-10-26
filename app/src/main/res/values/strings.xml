@@ -1,10 +1,16 @@
 <resources>
-    <string name="app_name">ToDoApp</string>
-    <string name="todo">To Do:</string>
-    <string name="title">Title</string>
-    <string name="date">Date</string>
-    <string name="not_done">Not done</string>
-    <string name="title_placeholder">Title</string>
-    <string name="description_placeholder">Put a short description of what you need to do.</string>
     <string name="add">Add</string>
+    <string name="app_name">ToDoApp</string>
+    <string name="created_on">Created on</string>
+    <string name="date">Date</string>
+    <string name="delete">Delete</string>
+    <string name="description">Description</string>
+    <string name="description_placeholder">Put a short description of what you need to do.</string>
+    <string name="mark_as_done">Mark as done</string>
+    <string name="mark_as_not_done">Mark as to be done</string>
+    <string name="not_done">Not done</string>
+    <string name="title">Title</string>
+    <string name="title_placeholder">Title</string>
+    <string name="todo">To Do:</string>
+    <string name="todolist">To Do List</string>
 </resources>

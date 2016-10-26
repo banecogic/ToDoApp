@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.todoapp.R;
+import com.example.todoapp.Util;
 import com.example.todoapp.manager.PreferenceManager;
 import com.example.todoapp.model.ToDoItem;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ToDoListViewAdapter extends BaseAdapter{
 
@@ -57,18 +56,28 @@ public class ToDoListViewAdapter extends BaseAdapter{
         ToDoItem toDoItem = this.toDoList.get(position);
         titleView.setText(toDoItem.getTitle());
 
-        String dateString = formatDateToStringRepresentation(toDoItem.getDate());
+        String dateString = Util.parseDate(toDoItem.getDate());
         dateView.setText(dateString);
 
         imageView.setImageResource(toDoItem.isDone()?R.drawable.done_mark:R.drawable.not_done_mark);
         return rowView;
     }
 
-    private String formatDateToStringRepresentation(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String retVal = new Integer(calendar.get(Calendar.DAY_OF_MONTH)) + "/" + new Integer(calendar.get(Calendar.MONTH))
-                + "/" + new Integer(calendar.get(Calendar.YEAR));
-        return retVal;
+    public ArrayList<ToDoItem> getToDoList() {
+        return toDoList;
+    }
+
+    /**
+     * Searches ToDoList for ToDoItem with the given title
+     *
+     * @param title wanted ToDoItem's title
+     * @return ToDoItem with coresponding title
+     */
+    public ToDoItem getToDoItemByTitle(String title){
+        for(ToDoItem toDoItem : toDoList){
+            if(toDoItem.getTitle().equals(title))
+                return toDoItem;
+        }
+        return null;
     }
 }

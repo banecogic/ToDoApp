@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorErrorDark">#e70e02</color>
+    <color name="colorMarkAsDone">#00af03</color>
+    <color name="colorMarkAsNotDone">#fdba01</color>
+    <color name="colorPlaceholder">#999999</color>
     <color name="colorPrimary">#ffe367</color>
     <color name="colorPrimaryDark">#f9d32a</color>
-    <color name="colorAccent">#ffffff</color>
-    <color name="colorPlaceholder">#999999</color>
     <color name="colorSuccessDark">#00af03</color>
 </resources>
