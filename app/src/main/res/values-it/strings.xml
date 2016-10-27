@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fare</string>
+    <string name="todo">Fare:</string>
+    <string name="todolist">Fare lista</string>
+    <string name="title_placeholder">Titolo</string>
+    <string name="title">Titolo</string>
+    <string name="not_done">Non fatto</string>
+    <string name="mark_as_not_done">Marcare come non fatto</string>
+    <string name="mark_as_done">Marcare come fatto</string>
+    <string name="description_placeholder">Mettere una breve descrizione di ciò che è necessario fare.</string>
+    <string name="description">Descrizione</string>
+    <string name="delete">Cancellare</string>
+    <string name="date">Data</string>
+    <string name="created_on">Creato</string>
+    <string name="add">Aggiungere</string>
+    <string name="united_kingdom">Regno Unito</string>
+    <string name="italy">Italia</string>
+    <string name="serbia">Serbia</string>
+    <string name="serbian">Serbo</string>
+    <string name="english">Inglese</string>
+    <string name="italian">Italiano</string>
+    <string name="choose_language">Scegli la lingua</string>
+</resources>

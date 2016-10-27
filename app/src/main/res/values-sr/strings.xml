@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Uradi</string>
+    <string name="add">Dodaj</string>
+    <string name="created_on">Kreiran</string>
+    <string name="date">Datum</string>
+    <string name="delete">Izbriši</string>
+    <string name="description">Opis</string>
+    <string name="description_placeholder">Stavite kratak opis onoga što trebate da uraditi</string>
+    <string name="mark_as_done">Obeleži kao urađeno</string>
+    <string name="mark_as_not_done">Obeleži kao neurađeno</string>
+    <string name="not_done">Neurađeno</string>
+    <string name="title">Naslov</string>
+    <string name="title_placeholder">Naslov</string>
+    <string name="todo">Uradi:</string>
+    <string name="todolist">Uradi lista</string>
+    <string name="united_kingdom">Ujedinjeno Kraljevstvo</string>
+    <string name="italy">Italija</string>
+    <string name="serbia">Srbija</string>
+    <string name="serbian">Srpski</string>
+    <string name="english">Engleski</string>
+    <string name="italian">Italijanski</string>
+    <string name="choose_language">Izaberi jezik</string>
+</resources>

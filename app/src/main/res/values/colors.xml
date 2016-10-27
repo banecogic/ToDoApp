@@ -8,4 +8,5 @@
     <color name="colorPrimary">#ffe367</color>
     <color name="colorPrimaryDark">#f9d32a</color>
     <color name="colorSuccessDark">#00af03</color>
+    <color name="normalTextColor">#000000</color>
 </resources>

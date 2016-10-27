@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">Add</string>
     <string name="app_name">ToDoApp</string>
+    <string name="add">Add</string>
     <string name="created_on">Created on</string>
     <string name="date">Date</string>
     <string name="delete">Delete</string>
@@ -16,8 +17,8 @@
     <string name="united_kingdom">United Kingdom</string>
     <string name="italy">Italy</string>
     <string name="serbia">Serbia</string>
-    <string name="serbian">Srpski</string>
+    <string name="serbian">Serbian</string>
     <string name="english">English</string>
-    <string name="italian">Italiano</string>
+    <string name="italian">Italian</string>
     <string name="choose_language">Choose language</string>
 </resources>

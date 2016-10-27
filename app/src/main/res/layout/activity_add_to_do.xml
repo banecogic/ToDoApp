@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:background="@color/colorPrimary"
+        android:textColor="@color/normalTextColor"
         android:gravity="center"
         android:textStyle="bold" />
 
@@ -41,6 +42,7 @@
         android:id="@+id/textView2"
         android:background="@color/colorPrimary"
         android:layout_marginTop="12dp"
+        android:textColor="@color/normalTextColor"
         android:gravity="center"
         android:textStyle="bold" />
 
@@ -67,6 +69,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add"
             android:textAlignment="center"
+            android:textColor="@color/normalTextColor"
             android:background="@color/colorSuccessDark"
             android:layout_gravity="center"
             android:layout_marginTop="18dp"

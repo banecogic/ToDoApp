@@ -11,9 +11,14 @@ import android.widget.TextView;
 
 import com.example.todoapp.Constants;
 import com.example.todoapp.R;
+import com.example.todoapp.ToDoApplication;
+import com.example.todoapp.Util;
 import com.example.todoapp.adapter.ToDoListViewAdapter;
+import com.example.todoapp.manager.PreferenceManager;
 import com.example.todoapp.model.ToDoItem;
 import com.google.gson.Gson;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,8 +40,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        toDoListViewAdapter = new ToDoListViewAdapter(this.getApplicationContext());
+        if(PreferenceManager.getInstance().isFirstOpening()){
+            Intent chooseLanguageIntent = new Intent(this, ChooseLanguageActivity.class);
+            startActivity(chooseLanguageIntent);
+        }
+        toDoListViewAdapter = new ToDoListViewAdapter(ToDoApplication.getAppContext());
         toDoListView.setAdapter(toDoListViewAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     /**
@@ -59,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
                 viewToDoAction(view);
             }
         });
+
+        ImageButton settingsBtn = (ImageButton) findViewById(R.id.settings_button);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsAction();
+            }
+        });
     }
 
     /**
@@ -75,5 +101,12 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         viewToDoItemIntent.putExtra(Constants.TO_DO_ITEM, gson.toJson(toDoItem, ToDoItem.class));
         startActivity(viewToDoItemIntent);
+    }
+
+    private void settingsAction(){
+        Intent goToSettingsIntent = new Intent(this, ChooseLanguageActivity.class);
+        Util.changeLocale(new Locale(""));
+        goToSettingsIntent.putExtra(Constants.COMMING_FROM_MAIN, true);
+        startActivity(goToSettingsIntent);
     }
 }

@@ -18,6 +18,9 @@ public class PreferenceManager {
     private static final PreferenceManager preferenceManager = new PreferenceManager();
     private static final String PREFERENCE_TO_DO_APP_STORE = "ToDoAppStore";
     private static final String PREFERENCE_TO_DO_LIST = "ToDoList";
+    private static final String PREFERENCE_LANGUAGE_SETTING = "Language";
+    private static final String PREFERENCE_COUNTRY_SETTING = "Country";
+    private static final String PREFERENCE_FIRST_OPENING = "FirstOpening";
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
@@ -98,6 +101,33 @@ public class PreferenceManager {
         Type listType = new TypeToken<ArrayList<ToDoItem>>(){}.getType();
         retVal = toDoListJson!=null?(ArrayList<ToDoItem>) gson.fromJson(toDoListJson, listType):retVal;
         Log.d(this.getClass().getSimpleName(), "TRACE: toDoListJson: " + toDoListJson);
+        return retVal;
+    }
+
+    public String getLanguageSetting(){
+        return sharedPreferences.getString(PREFERENCE_LANGUAGE_SETTING, null);
+    }
+
+    public void setLanguageSetting(String value) {
+        editor.putString(PREFERENCE_LANGUAGE_SETTING, value);
+        editor.apply();
+    }
+
+    public String getCountrySetting(){
+        return sharedPreferences.getString(PREFERENCE_COUNTRY_SETTING, null);
+    }
+
+    public void setCountrySetting(String value) {
+        editor.putString(PREFERENCE_COUNTRY_SETTING, value);
+        editor.apply();
+    }
+
+    public boolean isFirstOpening(){
+        boolean retVal = sharedPreferences.getBoolean(PREFERENCE_FIRST_OPENING, true);
+        if(retVal){
+            editor.putBoolean(PREFERENCE_FIRST_OPENING, false);
+            editor.apply();
+        }
         return retVal;
     }
 }

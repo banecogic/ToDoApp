@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:background="@drawable/edit_text_style">
+    <ImageView
+        android:id="@+id/language_item_icon"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/english"
+        android:src="@drawable/flag_united_kingdom"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/language_item_text"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:text="@string/english"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textColor="@color/normalTextColor"/>
+</LinearLayout>
