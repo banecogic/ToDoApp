@@ -1,33 +1,30 @@
 package com.example.todoapp.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.todoapp.R;
-import com.example.todoapp.Util;
-import com.example.todoapp.manager.PreferenceManager;
 import com.example.todoapp.model.ToDoItem;
+import com.example.todoapp.view.ToDoItemView;
+import com.example.todoapp.view.ToDoItemView_;
+
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
+import java.util.List;
 
+@EBean
 public class ToDoListViewAdapter extends BaseAdapter{
 
-    private ArrayList<ToDoItem> toDoList;
+    @RootContext
+    Context context;
 
-    private Context context;
+    private final ArrayList<ToDoItem> toDoList = new ArrayList<>();
 
     public ToDoListViewAdapter(Context context){
         this.context = context;
-        initToDoList();
-    }
-
-    private void initToDoList() {
-        this.toDoList = PreferenceManager.getInstance().getToDoList();
     }
 
     @Override
@@ -36,7 +33,7 @@ public class ToDoListViewAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public ToDoItem getItem(int position) {
         return this.toDoList.get(position);
     }
 
@@ -47,20 +44,12 @@ public class ToDoListViewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflanter = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = layoutInflanter.inflate(R.layout.to_do_item_layout, parent, false);
-        TextView titleView = (TextView) rowView.findViewById(R.id.to_do_item_title);
-        TextView dateView = (TextView) rowView.findViewById(R.id.to_do_item_date);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.to_do_item_icon);
+        final ToDoItem toDoItem = getItem(position);
 
-        ToDoItem toDoItem = this.toDoList.get(position);
-        titleView.setText(toDoItem.getTitle());
-
-        String dateString = Util.parseDate(toDoItem.getDate());
-        dateView.setText(dateString);
-
-        imageView.setImageResource(toDoItem.isDone()?R.drawable.done_mark:R.drawable.not_done_mark);
-        return rowView;
+        if(convertView == null)
+            return ToDoItemView_.build(context).bind(toDoItem);
+        else
+            return ((ToDoItemView) convertView).bind(toDoItem);
     }
 
     public ArrayList<ToDoItem> getToDoList() {
@@ -79,5 +68,16 @@ public class ToDoListViewAdapter extends BaseAdapter{
                 return toDoItem;
         }
         return null;
+    }
+
+    public void setToDoItems(List<ToDoItem> toDoItems) {
+        toDoList.clear();
+        toDoList.addAll(toDoItems);
+        notifyDataSetChanged();
+    }
+
+    public void addToDoItem(ToDoItem toDoItem){
+        toDoList.add(toDoItem);
+        notifyDataSetChanged();
     }
 }

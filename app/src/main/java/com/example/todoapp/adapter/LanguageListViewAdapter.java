@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.todoapp.R;
-import com.example.todoapp.ToDoApplication;
 
 import java.util.ArrayList;
 import java.util.Locale;

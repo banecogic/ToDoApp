@@ -1,14 +1,10 @@
 package com.example.todoapp.model;
 
-import com.example.todoapp.ToDoApplication;
 import com.example.todoapp.Util;
-
-import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by FS-LB on 10/24/2016.
- */
+
+
 public class ToDoItem {
 
     private String title;
@@ -17,7 +13,7 @@ public class ToDoItem {
 
     private Date date;
 
-    private boolean isDone;
+    private boolean finished;
 
     public ToDoItem(){
         this("MockTitle", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...");
@@ -31,11 +27,11 @@ public class ToDoItem {
         this(title, description, date, false);
     }
 
-    public ToDoItem(String title, String description, Date date, boolean isDone){
+    public ToDoItem(String title, String description, Date date, boolean finished){
         this.title = title;
         this.description = description;
         this.date = date;
-        this.isDone = isDone;
+        this.finished = finished;
     }
 
     public String getTitle() {
@@ -62,19 +58,19 @@ public class ToDoItem {
         this.date = date;
     }
 
-    public boolean isDone() {
-        return isDone;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     @Override
     public String toString() {
         String dateString = Util.parseDate(date);
         return "[ " + title + ", " + dateString + ", "
-                + (isDone?" done ]":" to be done ]");
+                + (finished?" done ]":" to be done ]");
     }
 
     @Override

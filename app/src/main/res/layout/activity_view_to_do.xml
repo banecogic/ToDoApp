@@ -22,7 +22,7 @@
         android:textColor="@color/normalTextColor"/>
 
     <TextView
-        android:id="@+id/title_content_text_view"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title"
@@ -46,7 +46,7 @@
         android:textColor="@color/normalTextColor"/>
 
     <TextView
-        android:id="@+id/description_content_text_view"
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/description"
@@ -55,30 +55,6 @@
         android:textColor="@color/normalTextColor"
         android:background="@drawable/edit_text_style"
         android:textStyle="normal"
-        android:padding="8dp" />
-
-    <TextView
-        android:id="@+id/date_text_view"
-        android:text="@string/created_on"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/normalTextColor"/>
-
-    <TextView
-        android:id="@+id/date_content_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/date"
-        android:fontFamily="Tahoma"
-        android:textSize="16sp"
-        android:textColor="@color/normalTextColor"
-        android:background="@drawable/edit_text_style"
-        android:textStyle="normal"
-        android:gravity="center"
         android:padding="8dp" />
 
     <RelativeLayout
@@ -90,7 +66,7 @@
             android:orientation="vertical"
             android:layout_alignParentBottom="true">
             <Button
-                android:id="@+id/mark_as_done_button"
+                android:id="@+id/markAsDoneBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mark_as_done"
@@ -99,7 +75,7 @@
                 android:background="@color/colorMarkAsDone"
                 android:layout_gravity="center"/>
             <Button
-                android:id="@+id/mark_as_not_done_button"
+                android:id="@+id/markAsNotDoneBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mark_as_not_done"
@@ -108,7 +84,7 @@
                 android:background="@color/colorMarkAsNotDone"
                 android:layout_gravity="center"/>
             <Button
-                android:id="@+id/delete_button"
+                android:id="@+id/deleteBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"

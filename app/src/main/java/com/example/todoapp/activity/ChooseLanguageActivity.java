@@ -1,23 +1,18 @@
 package com.example.todoapp.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.todoapp.Constants;
 import com.example.todoapp.R;
 import com.example.todoapp.ToDoApplication;
 import com.example.todoapp.Util;
 import com.example.todoapp.adapter.LanguageListViewAdapter;
-import com.example.todoapp.manager.PreferenceManager;
 
 import java.util.Locale;
 
@@ -59,8 +54,8 @@ public class ChooseLanguageActivity extends AppCompatActivity {
         Locale locale = (Locale) tuple.third;
         Util.changeLocale(locale);
         Intent goToMainIntent = new Intent(this, MainActivity.class);
-        PreferenceManager.getInstance().setLanguageSetting(locale.getLanguage());
-        PreferenceManager.getInstance().setCountrySetting(locale.getCountry());
+        //PreferenceManager.getInstance().setLanguageSetting(locale.getLanguage());
+        //PreferenceManager.getInstance().setCountrySetting(locale.getCountry());
         startActivity(goToMainIntent);
     }
 }

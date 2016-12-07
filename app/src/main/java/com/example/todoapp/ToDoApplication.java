@@ -3,10 +3,6 @@ package com.example.todoapp;
 import android.app.Application;
 import android.content.Context;
 
-/**
- * Created by FS-LB on 10/25/2016.
- */
-
 public class ToDoApplication extends Application {
 
     private static ToDoApplication toDoApp;

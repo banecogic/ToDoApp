@@ -27,7 +27,7 @@
             android:textColor="@color/normalTextColor" />
 
         <ImageButton
-            android:id="@+id/settings_button"
+            android:id="@+id/settingsButton"
             android:src="@drawable/settings_icon"
             android:background="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
@@ -37,14 +37,14 @@
 
 
     <ListView
-        android:id="@+id/to_do_list"
+        android:id="@+id/toDoList"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"/>
 
     <ImageButton
-        android:id="@+id/add_to_do_button"
+        android:id="@+id/addToDo"
         android:src="@drawable/add_to_do_button"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:background="@drawable/edit_text_style">
 
     <ImageView
-        android:id="@+id/to_do_item_icon"
+        android:id="@+id/toDoItemIcon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
@@ -15,12 +15,12 @@
         android:src="@drawable/not_done_mark" />
 
     <TextView
-        android:id="@+id/to_do_item_date"
+        android:id="@+id/toDoItemDate"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/to_do_item_icon"
+        android:layout_toRightOf="@id/toDoItemIcon"
         android:ellipsize="marquee"
         android:maxLines="1"
         android:text="@string/date"
@@ -29,14 +29,14 @@
         android:elevation="1dp" />
 
     <TextView
-        android:id="@+id/to_do_item_title"
+        android:id="@+id/toDoItemTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/to_do_item_date"
+        android:layout_above="@id/toDoItemDate"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/to_do_item_icon"
+        android:layout_toRightOf="@id/toDoItemIcon"
         android:gravity="center_vertical"
         android:text="@string/title"
         android:textSize="16sp"

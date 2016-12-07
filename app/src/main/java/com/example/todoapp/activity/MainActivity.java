@@ -1,66 +1,151 @@
 package com.example.todoapp.activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.todoapp.Constants;
 import com.example.todoapp.R;
-import com.example.todoapp.ToDoApplication;
-import com.example.todoapp.Util;
 import com.example.todoapp.adapter.ToDoListViewAdapter;
-import com.example.todoapp.manager.PreferenceManager;
+import com.example.todoapp.api.RestApi;
 import com.example.todoapp.model.ToDoItem;
+import com.example.todoapp.model.dto.ToDoItemDTO;
+import com.example.todoapp.preference.UserPreference_;
 import com.google.gson.Gson;
 
-import java.util.Locale;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.util.List;
+
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
-    ToDoListViewAdapter toDoListViewAdapter;
-
-    ListView toDoListView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initializeView();
-    }
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
-     * Everytime the activity start we fetch all ToDoItems that the user have so we can show all
-     * of them in the ListView
+     *  Used for identifying results from different activities.
      */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(PreferenceManager.getInstance().isFirstOpening()){
-            Intent chooseLanguageIntent = new Intent(this, ChooseLanguageActivity.class);
-            startActivity(chooseLanguageIntent);
+    public static final int LOGIN_REQUEST_CODE = 1;
+    public static final int ADD_TO_DO_REQUEST_CODE = 2;
+    public static final int VIEW_TO_DO_REQUEST_CODE = 3;
+
+    private List<ToDoItem> toDoItems;
+
+
+    @ViewById
+    ImageButton settingsButton;
+
+    @ViewById
+    ImageButton addToDo;
+
+    @ViewById
+    ListView toDoList;
+
+    @Bean
+    ToDoListViewAdapter toDoListViewAdapter;
+
+    @Pref
+    UserPreference_ userPreference;
+
+    @RestService
+    RestApi restApi;
+
+    @AfterViews
+    @Background
+    void checkIfUserIsLoggedIn() {
+        Log.i(TAG, "Checking if user is logged in...");
+        if(!userPreference.accessToken().exists()){
+            Log.i(TAG, "User is not logged in. Starting LoginActivity...");
+            LoginActivity_.intent(this).startForResult(LOGIN_REQUEST_CODE);
+            return;
         }
-        toDoListViewAdapter = new ToDoListViewAdapter(ToDoApplication.getAppContext());
-        toDoListView.setAdapter(toDoListViewAdapter);
+
+        Log.i(TAG, "User is logged in. Fetching to do items for the user...");
+
+        try{
+            toDoItems = restApi.getAllToDoItems();
+            Log.i(TAG, "Successfully fetched to do items. Fetched " + toDoItems.size() + " to do items");
+        } catch (Exception e) {
+            Log.e(TAG, "Fetching to do items failed. Exception message:\n\t" + e.getMessage(), e);
+        }
+
+        initData();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+    @UiThread
+    void initData() {
+        toDoList.setAdapter(toDoListViewAdapter);
+        toDoListViewAdapter.setToDoItems(toDoItems);
+    }
+
+    @Click
+    void addToDo() {
+        Log.i(TAG, "Add task clicked. Starting AddToDoActivity...");
+        AddToDoActivity_.intent(this).startForResult(ADD_TO_DO_REQUEST_CODE);
+    }
+
+    @ItemClick(value = R.id.toDoList)
+    void toDoListItemClicked(int position) {
+        ToDoItem toDoItem = toDoListViewAdapter.getItem(position);
+        Gson gson = new Gson();
+        ViewToDoActivity_.intent(this).extra(Constants.TO_DO_ITEM, gson.toJson(toDoItem, ToDoItem.class)).startForResult(VIEW_TO_DO_REQUEST_CODE);
+    }
+
+    @OnActivityResult(LOGIN_REQUEST_CODE)
+    @Background
+    void onLogin(int resultCode, @OnActivityResult.Extra("token") String token) {
+        if(resultCode == RESULT_OK) {
+            userPreference.accessToken().put(token);
+            checkIfUserIsLoggedIn();
+        }
+    }
+
+    @OnActivityResult(ADD_TO_DO_REQUEST_CODE)
+    @Background
+    void onResult(int resultCode, @OnActivityResult.Extra("toDoItem") String toDoItem){
+        if(resultCode == RESULT_OK){
+            final Gson gson = new Gson();
+            final ToDoItem newToDoItem = gson.fromJson(toDoItem, ToDoItem.class);
+            try {
+                Log.i(TAG, "Sending rest call to create new ToDoItem");
+                restApi.createToDoItem(new ToDoItemDTO(newToDoItem.getTitle(), newToDoItem.getDescription()));
+                onCreateToDoItemSucceed(newToDoItem);
+            } catch (Exception e) {
+                onCreateToDoItemFailed(e);
+            }
+        }
+    }
+
+    @UiThread
+    void onCreateToDoItemSucceed(ToDoItem toDoItem) {
+        Log.i(TAG, "Successfully created new ToDoItem " + toDoItem.toString());
+        toDoListViewAdapter.addToDoItem(toDoItem);
+    }
+
+    @UiThread
+    void onCreateToDoItemFailed(Exception e){
+        Toast.makeText(this, "Failed to create new ToDoItem. Probably network error.", Toast.LENGTH_SHORT);
+        Log.e(TAG, "Failed to create new ToDoItem. Exception detail:\n\t" + e.getMessage());
+        e.printStackTrace();
     }
 
     /**
      * Initialize view components in the MainActivity.
      * Actually just add onClick listener to the Add new to do button and save reference of to dos ListView
      */
+    /*
     private void initializeView() {
         ListView listView = (ListView) findViewById(R.id.to_do_list);
         toDoListView = listView;
@@ -85,11 +170,12 @@ public class MainActivity extends AppCompatActivity {
                 settingsAction();
             }
         });
-    }
+    }*/
 
     /**
      * Opens a new AddToDoActivity. Called on Add button click from MainActivity
      */
+    /*
     private void addNewToDoAction(){
         Intent addToDoIntent = new Intent(this, AddToDoActivity.class);
         startActivityForResult(addToDoIntent, 0);
@@ -108,5 +194,5 @@ public class MainActivity extends AppCompatActivity {
         Util.changeLocale(new Locale(""));
         goToSettingsIntent.putExtra(Constants.COMMING_FROM_MAIN, true);
         startActivity(goToSettingsIntent);
-    }
+    }*/
 }
