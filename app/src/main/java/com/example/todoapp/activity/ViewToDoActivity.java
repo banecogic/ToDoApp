@@ -1,5 +1,6 @@
 package com.example.todoapp.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -8,19 +9,25 @@ import android.widget.TextView;
 
 import com.example.todoapp.Constants;
 import com.example.todoapp.R;
+import com.example.todoapp.api.RestApi;
 import com.example.todoapp.model.ToDoItem;
 import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.rest.spring.annotations.RestService;
 
 @EActivity(R.layout.activity_view_to_do)
 public class ViewToDoActivity extends AppCompatActivity {
 
     private static final String TAG = ViewToDoActivity.class.getSimpleName();
+
+    @RestService
+    RestApi restApi;
 
     @ViewById
     TextView title;
@@ -79,11 +86,16 @@ public class ViewToDoActivity extends AppCompatActivity {
     }
 
     @Click
+    @Background
     void deleteBtn() {
-        //TODO Call rest to delete ToDoItem
+        restApi.deleteToDoItem(Integer.toString((int)toDoItem.getId()));
         Log.i(TAG, "Delete button clicked. Starting MainActivity...");
 
-        setResult(RESULT_OK);
+        Intent intent = new Intent();
+        intent.putExtra("delete", true);
+        final Gson gson = new Gson();
+        intent.putExtra("toDoItem", gson.toJson(toDoItem));
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

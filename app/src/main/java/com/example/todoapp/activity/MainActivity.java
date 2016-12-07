@@ -112,15 +112,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @OnActivityResult(VIEW_TO_DO_REQUEST_CODE)
+    @Background
+    void onViewToDoItemFinish(int resultCode
+            , @OnActivityResult.Extra("toDoItem") String toDoItemSerialized
+            , @OnActivityResult.Extra("delete") boolean delete) {
+        if(resultCode == RESULT_OK) {
+            if(delete)
+                deleteToDoItemFromView(toDoItemSerialized);
+        }
+    }
+
+    @UiThread
+    void deleteToDoItemFromView(String toDoItemSerialized){
+        final Gson gson = new Gson();
+        final ToDoItem toDoItem = gson.fromJson(toDoItemSerialized, ToDoItem.class);
+        Log.i(TAG, "Deleting ToDoItem with an id " + toDoItem.getId());
+        toDoListViewAdapter.deleteToDoItem(toDoItem);
+    }
+
     @OnActivityResult(ADD_TO_DO_REQUEST_CODE)
     @Background
     void onResult(int resultCode, @OnActivityResult.Extra("toDoItem") String toDoItem){
         if(resultCode == RESULT_OK){
             final Gson gson = new Gson();
-            final ToDoItem newToDoItem = gson.fromJson(toDoItem, ToDoItem.class);
+            ToDoItem newToDoItem = gson.fromJson(toDoItem, ToDoItem.class);
             try {
                 Log.i(TAG, "Sending rest call to create new ToDoItem");
-                restApi.createToDoItem(new ToDoItemDTO(newToDoItem.getTitle(), newToDoItem.getDescription()));
+                newToDoItem = restApi.createToDoItem(new ToDoItemDTO(newToDoItem.getTitle(), newToDoItem.getDescription()));
                 onCreateToDoItemSucceed(newToDoItem);
             } catch (Exception e) {
                 onCreateToDoItemFailed(e);

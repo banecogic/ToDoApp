@@ -8,8 +8,10 @@ import com.example.todoapp.model.dto.ToDoItemDTO;
 import com.example.todoapp.model.dto.Token;
 
 import org.androidannotations.rest.spring.annotations.Body;
+import org.androidannotations.rest.spring.annotations.Delete;
 import org.androidannotations.rest.spring.annotations.Get;
 import org.androidannotations.rest.spring.annotations.Header;
+import org.androidannotations.rest.spring.annotations.Path;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.ResponseEntity;
@@ -38,4 +40,7 @@ public interface RestApi {
     @Header(name = "Content-Type", value = "application/json")
     @Post(value = ApiConstants.REGISTER_PATH)
     ResponseEntity register(@Body RegisterDTO registerDTO);
+
+    @Delete(value = ApiConstants.PARTICULAR_TASK_PATH)
+    ToDoItem deleteToDoItem(@Path String id);
 }

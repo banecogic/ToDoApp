@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class ToDoItem {
 
+    private long id;
+
     private String title;
 
     private String description;
@@ -32,6 +34,14 @@ public class ToDoItem {
         this.description = description;
         this.date = date;
         this.finished = finished;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {

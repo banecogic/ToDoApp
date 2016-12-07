@@ -10,4 +10,6 @@ public class ApiConstants {
 
     public static final String TASK_PATH = "/api/todotasks";
 
+    public static final String PARTICULAR_TASK_PATH = "/api/todotasks/{id}";
+
 }

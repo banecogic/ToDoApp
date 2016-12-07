@@ -76,6 +76,11 @@ public class ToDoListViewAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    public void deleteToDoItem(ToDoItem toDoItem){
+        toDoList.remove(toDoItem);
+        notifyDataSetChanged();
+    }
+
     public void addToDoItem(ToDoItem toDoItem){
         toDoList.add(toDoItem);
         notifyDataSetChanged();
